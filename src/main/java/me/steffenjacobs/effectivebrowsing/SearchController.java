@@ -21,19 +21,19 @@ public class SearchController {
 
 	@GetMapping(value = "/files/search/title")
 	public ResponseEntity<Collection<TrackInfo>> searchByTitle(String title) throws FileNotFoundException {
-		return new ResponseEntity<>(trackRepository.findByTitleContaining(title), HttpStatus.OK);
+		return new ResponseEntity<>(trackRepository.findByTitleContainingIgnoreCase(title), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/files/search/artist")
 	public ResponseEntity<Collection<TrackInfo>> searchByArtist(String artist) throws FileNotFoundException {
-		return new ResponseEntity<>(trackRepository.findByArtistContaining(artist), HttpStatus.OK);
+		return new ResponseEntity<>(trackRepository.findByArtistContainingIgnoreCase(artist), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/files/search")
 	public ResponseEntity<Collection<TrackInfo>> search(String search) throws FileNotFoundException {
-		return new ResponseEntity<>(
-				trackRepository.findByArtistContainingOrTitleContainingOrAlbumContainingOrComposerContainingOrCommentContainingOrArtistSortContainingOrGenreContaining(search,
-						search, search, search, search, search, search),
+		return new ResponseEntity<>(trackRepository
+				.findByArtistContainingIgnoreCaseOrTitleContainingIgnoreCaseOrAlbumContainingIgnoreCaseOrComposerContainingIgnoreCaseOrCommentContainingIgnoreCaseOrArtistSortContainingIgnoreCaseOrGenreContainingIgnoreCase(
+						search, search, search, search, search, search, search),
 				HttpStatus.OK);
 	}
 
