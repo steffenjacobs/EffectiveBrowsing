@@ -27,6 +27,7 @@ import me.steffenjacobs.effectivebrowsing.domain.IndexingStatusDTO;
 import me.steffenjacobs.effectivebrowsing.domain.IndexingStatusDTO.IndexingStatus;
 import me.steffenjacobs.effectivebrowsing.domain.orm.TrackInfo;
 import me.steffenjacobs.effectivebrowsing.domain.orm.TrackRepository;
+import me.steffenjacobs.effectivebrowsing.parser.ParsingService;
 import me.steffenjacobs.effectivebrowsing.util.FileUtilService;
 
 /** @author Steffen Jacobs */
@@ -43,6 +44,9 @@ public class IndexingService {
 
 	@Autowired
 	FileUtilService fileUtilService;
+
+	@Autowired
+	ParsingService parsingService;
 
 	public static class TagFail {
 		final String message, path;
@@ -149,7 +153,7 @@ public class IndexingService {
 				tagFails.add(new TagFail("Could not read file", path.toString()));
 				return new TrackInfo();
 			}
-			return new TrackInfo(tag, f.getAudioHeader().getTrackLength() * 1000, path.toAbsolutePath().toString());
+			return new TrackInfo(tag, f.getAudioHeader().getTrackLength() * 1000, parsingService.parseYear(tag), path.toAbsolutePath().toString());
 		} catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException e) {
 			tagFails.add(new TagFail(e.getMessage(), path.toString()));
 		}

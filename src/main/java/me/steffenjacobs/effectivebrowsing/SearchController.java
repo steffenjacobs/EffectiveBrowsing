@@ -1,7 +1,9 @@
 package me.steffenjacobs.effectivebrowsing;
 
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,12 @@ public class SearchController {
 	@Autowired
 	TrackRepository trackRepository;
 
+	private static final Calendar CAL = Calendar.getInstance();
+
+	static {
+		CAL.setTimeInMillis(0);
+	}
+
 	@GetMapping(value = "/files/search/title")
 	public ResponseEntity<Collection<TrackInfo>> searchByTitle(String title) throws FileNotFoundException {
 		return new ResponseEntity<>(trackRepository.findByTitleContainingIgnoreCase(title), HttpStatus.OK);
@@ -27,6 +35,15 @@ public class SearchController {
 	@GetMapping(value = "/files/search/artist")
 	public ResponseEntity<Collection<TrackInfo>> searchByArtist(String artist) throws FileNotFoundException {
 		return new ResponseEntity<>(trackRepository.findByArtistContainingIgnoreCase(artist), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/files/search/year")
+	public ResponseEntity<Collection<TrackInfo>> searchByYear(int year1, int year2) throws FileNotFoundException {
+		CAL.set(Calendar.YEAR, year1);
+		Date date1 = CAL.getTime();
+		CAL.set(Calendar.YEAR, year2);
+		Date date2 = CAL.getTime();
+		return new ResponseEntity<>(trackRepository.findByYearBetween(date1, date2), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/files/search")

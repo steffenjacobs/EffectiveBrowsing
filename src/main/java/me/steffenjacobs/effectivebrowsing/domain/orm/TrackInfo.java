@@ -1,5 +1,7 @@
 package me.steffenjacobs.effectivebrowsing.domain.orm;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,11 +32,11 @@ public class TrackInfo {
 	@Column(name = "comment", length = 1024)
 	private String comment;
 	@Column
-	private String year;
+	private Date year;
 	@Column
-	private String track;
+	private int track;
 	@Column
-	private String discNo;
+	private int discNo;
 	@Column
 	private String composer;
 	@Column
@@ -46,27 +48,40 @@ public class TrackInfo {
 	private String path;
 
 	@Column
+	private int bpm;
+
+	@Column
 	private long length;
 
-	public TrackInfo(Tag tag, long trackLength, String path) {
+	public TrackInfo(Tag tag, long trackLength, Date year, String path) {
 		artist = tag.getFirst(FieldKey.ARTIST);
 		album = tag.getFirst(FieldKey.ALBUM);
 		title = tag.getFirst(FieldKey.TITLE);
 		comment = tag.getFirst(FieldKey.COMMENT);
-		year = tag.getFirst(FieldKey.YEAR);
-		track = tag.getFirst(FieldKey.TRACK);
+		this.year = year;
 		try {
-			discNo = tag.getFirst(FieldKey.DISC_NO);
-		} catch (UnsupportedOperationException e) {
+			track = Integer.parseInt(tag.getFirst(FieldKey.TRACK));
+		} catch (NumberFormatException e) {
+		}
+		try {
+			discNo = Integer.parseInt(tag.getFirst(FieldKey.DISC_NO));
+		} catch (UnsupportedOperationException | NumberFormatException e) {
 		}
 		try {
 			composer = tag.getFirst(FieldKey.COMPOSER);
 		} catch (UnsupportedOperationException e) {
 		}
 		try {
-			artistSort = tag.getFirst(FieldKey.ARTIST_SORT);
+			artistSort = tag.getFirst(FieldKey.ARTIST);
 		} catch (UnsupportedOperationException e) {
 		}
+
+		try {
+			bpm = Integer.parseInt(tag.getFirst(FieldKey.BPM));
+		} catch (UnsupportedOperationException | NumberFormatException e) {
+		}
+
+		genre = tag.getFirst(FieldKey.GENRE);
 
 		length = trackLength;
 		this.path = path;
@@ -79,11 +94,19 @@ public class TrackInfo {
 		return path == null || "".equals(path);
 	}
 
-	public String getDiscNo() {
+	public int getTrack() {
+		return track;
+	}
+
+	public void setTrack(int track) {
+		this.track = track;
+	}
+
+	public int getDiscNo() {
 		return discNo;
 	}
 
-	public void setDiscNo(String discNo) {
+	public void setDiscNo(int discNo) {
 		this.discNo = discNo;
 	}
 
@@ -131,20 +154,20 @@ public class TrackInfo {
 		this.comment = comment;
 	}
 
-	public String getYear() {
+	public Date getYear() {
 		return year;
 	}
 
-	public void setYear(String year) {
+	public void setYear(Date year) {
 		this.year = year;
 	}
 
-	public String getTrack() {
-		return track;
+	public int getBpm() {
+		return bpm;
 	}
 
-	public void setTrack(String track) {
-		this.track = track;
+	public void setBpm(int bpm) {
+		this.bpm = bpm;
 	}
 
 	public String getComposer() {
