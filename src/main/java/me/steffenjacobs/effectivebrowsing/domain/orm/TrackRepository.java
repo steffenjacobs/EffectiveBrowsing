@@ -13,6 +13,8 @@ public interface TrackRepository extends JpaRepository<TrackInfo, Long> {
 
 	public List<TrackInfo> findByArtistContaining(String artist);
 
+	public List<TrackInfo> findByTitleAndArtistAndLength(String title, String artist, long length);
+
 	public List<TrackInfo> findByArtistContainingOrTitleContainingOrAlbumContainingOrComposerContainingOrCommentContainingOrArtistSortContainingOrGenreContaining(String artist,
 			String title, String album, String composer, String comment, String artistSort, String genre);
 

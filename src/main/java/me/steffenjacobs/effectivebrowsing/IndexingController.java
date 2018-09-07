@@ -21,7 +21,7 @@ public class IndexingController {
 	IndexingService indexingService;
 
 	@PostMapping(value = "/files/index", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public ResponseEntity<IndexingStatusDTO> index(String path) throws FileNotFoundException {
+	public ResponseEntity<IndexingStatusDTO> index(String path) throws Exception {
 		return new ResponseEntity<>(indexingService.startIndexing(path), HttpStatus.OK);
 	}
 

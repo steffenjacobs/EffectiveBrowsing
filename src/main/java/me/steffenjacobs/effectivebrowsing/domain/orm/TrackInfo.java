@@ -26,7 +26,8 @@ public class TrackInfo {
 	private String album;
 	@Column
 	private String title;
-	@Column
+
+	@Column(name = "comment", length = 1024)
 	private String comment;
 	@Column
 	private String year;
@@ -54,9 +55,19 @@ public class TrackInfo {
 		comment = tag.getFirst(FieldKey.COMMENT);
 		year = tag.getFirst(FieldKey.YEAR);
 		track = tag.getFirst(FieldKey.TRACK);
-		discNo = tag.getFirst(FieldKey.DISC_NO);
-		composer = tag.getFirst(FieldKey.COMPOSER);
-		artistSort = tag.getFirst(FieldKey.ARTIST_SORT);
+		try {
+			discNo = tag.getFirst(FieldKey.DISC_NO);
+		} catch (UnsupportedOperationException e) {
+		}
+		try {
+			composer = tag.getFirst(FieldKey.COMPOSER);
+		} catch (UnsupportedOperationException e) {
+		}
+		try {
+			artistSort = tag.getFirst(FieldKey.ARTIST_SORT);
+		} catch (UnsupportedOperationException e) {
+		}
+
 		length = trackLength;
 		this.path = path;
 	}

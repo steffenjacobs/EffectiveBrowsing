@@ -36,4 +36,11 @@ public class SearchController {
 						search, search, search, search, search, search),
 				HttpStatus.OK);
 	}
+
+	@GetMapping(value = "files/search/duplicate")
+	public ResponseEntity<Collection<TrackInfo>> searchDuplicates() throws FileNotFoundException {
+		String title = "Night of the Hunter", artist = "30 Seconds to Mars";
+		long length = 340000;
+		return new ResponseEntity<>(trackRepository.findByTitleAndArtistAndLength(title, artist, length), HttpStatus.OK);
+	}
 }
