@@ -90,7 +90,7 @@ public class FileUtilService {
 	}
 
 	public BrowseResult browse(String path) throws FileNotFoundException {
-		File f = new File(path);
+		File f = new File(path == null ? "/" : path);
 		if (!f.exists()) {
 			throw new FileNotFoundException(path);
 		}

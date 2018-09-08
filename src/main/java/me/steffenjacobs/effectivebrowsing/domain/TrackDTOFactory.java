@@ -28,9 +28,9 @@ public class TrackDTOFactory {
 		return dto;
 	}
 	
-	public static List<TrackDTO> fromTrackInfo(List<TrackInfo> list){
+	public static TrackListDTOImpl fromTrackInfo(List<TrackInfo> list){
 		List<TrackDTO> info = new LinkedList<>();
 		list.forEach(t -> info.add(fromTrackInfo(t)));
-		return info;
+		return new TrackListDTOImpl(info);
 	}
 }
