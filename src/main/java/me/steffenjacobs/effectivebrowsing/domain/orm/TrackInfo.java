@@ -51,9 +51,12 @@ public class TrackInfo {
 	private int bpm;
 
 	@Column
+	private long bitrate;
+
+	@Column
 	private long length;
 
-	public TrackInfo(Tag tag, long trackLength, Date year, String path) {
+	public TrackInfo(Tag tag, long trackLength, long bitrate, Date year, String path) {
 		artist = tag.getFirst(FieldKey.ARTIST);
 		album = tag.getFirst(FieldKey.ALBUM);
 		title = tag.getFirst(FieldKey.TITLE);
@@ -83,6 +86,7 @@ public class TrackInfo {
 
 		genre = tag.getFirst(FieldKey.GENRE);
 
+		this.bitrate = bitrate;
 		length = trackLength;
 		this.path = path;
 	}
