@@ -10,17 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import me.steffenjacobs.effectivebrowsing.domain.BrowseResult;
+import me.steffenjacobs.effectivebrowsing.util.FileUtilService;
 
 /** @author Steffen Jacobs */
 @Controller
 public class FileController {
 	
 	@Autowired
-	FileService fileService;
+	FileUtilService fileUtilService;
 
 
 	@PostMapping(value = "/files/browse", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ResponseEntity<BrowseResult> getBrowse(String path) throws FileNotFoundException {
-		return new ResponseEntity<>(fileService.browse(path), HttpStatus.OK);
+		return new ResponseEntity<>(fileUtilService.browse(path), HttpStatus.OK);
 	}
 }

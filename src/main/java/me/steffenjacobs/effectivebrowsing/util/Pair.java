@@ -1,4 +1,4 @@
-package me.steffenjacobs.effectivebrowsing;
+package me.steffenjacobs.effectivebrowsing.util;
 
 /** @author Steffen Jacobs */
 public class Pair<T1, T2> {
