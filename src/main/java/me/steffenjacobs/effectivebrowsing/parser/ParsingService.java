@@ -1,7 +1,11 @@
 package me.steffenjacobs.effectivebrowsing.parser;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -55,4 +59,12 @@ public class ParsingService {
 		return null;
 	}
 
+	public Date parseCreationDate(Path path) {
+		try {
+			cal.setTimeInMillis(Files.readAttributes(path, BasicFileAttributes.class).creationTime().toMillis());
+			return cal.getTime();
+		} catch (IOException e) {
+		}
+		return null;
+	}
 }

@@ -154,7 +154,7 @@ public class IndexingService {
 				return new TrackInfo();
 			}
 			return new TrackInfo(tag, f.getAudioHeader().getTrackLength() * 1000, f.getAudioHeader().getBitRateAsNumber(), parsingService.parseYear(tag),
-					path.toAbsolutePath().toString());
+					parsingService.parseCreationDate(path), path.toAbsolutePath().toString());
 		} catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException e) {
 			tagFails.add(new TagFail(e.getMessage(), path.toString()));
 		}
