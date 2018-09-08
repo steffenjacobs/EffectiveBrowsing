@@ -94,6 +94,14 @@ public class TrackInfo {
 	public TrackInfo() {
 	}
 
+	public long getBitrate() {
+		return bitrate;
+	}
+
+	public void setBitrate(long bitrate) {
+		this.bitrate = bitrate;
+	}
+
 	public boolean isEmpty() {
 		return path == null || "".equals(path);
 	}
