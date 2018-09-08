@@ -165,10 +165,19 @@ public class IndexingService {
 	private void index(Path file) {
 		final TrackInfo trackInfo = getTrackInfo(file);
 		if (!trackInfo.isEmpty()) {
-			if (trackRepository.findByTitleAndArtistAndLength(trackInfo.getTitle(), trackInfo.getArtist(), trackInfo.getLength()).isEmpty()) {
+			final List<TrackInfo> storedRecord = trackRepository.findByTitleAndArtistAndLength(trackInfo.getTitle(), trackInfo.getArtist(), trackInfo.getLength());
+			if (storedRecord.isEmpty()) {
 				trackRepository.save(trackInfo);
 			} else {
-				tagFails.add(new TagFail("Duplicate", file.toString()));
+				// there will be exactly one record in the list 'storedRecord'
+				if (storedRecord.get(0).getBitrate() < trackInfo.getBitrate()) {
+					trackRepository.delete(storedRecord.get(0));
+					trackRepository.save(trackInfo);
+					tagFails.add(new TagFail("Replaced duplicate with higher bitrate: ",
+							file.toString() + " (" + storedRecord.get(0).getBitrate() + "/" + trackInfo.getBitrate() + ")"));
+				} else {
+					tagFails.add(new TagFail("Duplicate", file.toString()));
+				}
 			}
 		}
 		alreadyIndexed.incrementAndGet();
