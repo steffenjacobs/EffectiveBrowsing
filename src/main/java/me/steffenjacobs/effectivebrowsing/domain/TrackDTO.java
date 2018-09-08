@@ -1,110 +1,30 @@
-package me.steffenjacobs.effectivebrowsing.domain.orm;
+package me.steffenjacobs.effectivebrowsing.domain;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.jaudiotagger.tag.FieldKey;
-import org.jaudiotagger.tag.Tag;
-
 /** @author Steffen Jacobs */
 
-@Entity(name = "track")
-@Table(name = "track")
-public class TrackInfo {
+public class TrackDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-
-	@Column
 	private String artist;
-	@Column
 	private String album;
-	@Column
 	private String title;
 
-	@Column(name = "comment", length = 1024)
 	private String comment;
-	@Column
 	private Date year;
-	@Column
 	private int track;
-	@Column
 	private int discNo;
-	@Column
 	private String composer;
-	@Column
 	private String artistSort;
-	@Column
 	private String genre;
-
-	@Column
 	private String path;
-
-	@Column
 	private int bpm;
-
-	@Column
 	private long bitrate;
-	
-	@Column
 	private Date creationDate;
-
-	@Column
 	private long length;
 
-	public TrackInfo(Tag tag, long trackLength, long bitrate, Date year, Date creationDate, String path) {
-		artist = tag.getFirst(FieldKey.ARTIST);
-		album = tag.getFirst(FieldKey.ALBUM);
-		title = tag.getFirst(FieldKey.TITLE);
-		comment = tag.getFirst(FieldKey.COMMENT);
-		this.year = year;
-		try {
-			track = Integer.parseInt(tag.getFirst(FieldKey.TRACK));
-		} catch (NumberFormatException e) {
-		}
-		try {
-			discNo = Integer.parseInt(tag.getFirst(FieldKey.DISC_NO));
-		} catch (UnsupportedOperationException | NumberFormatException e) {
-		}
-		try {
-			composer = tag.getFirst(FieldKey.COMPOSER);
-		} catch (UnsupportedOperationException e) {
-		}
-		try {
-			artistSort = tag.getFirst(FieldKey.ARTIST);
-		} catch (UnsupportedOperationException e) {
-		}
-
-		try {
-			bpm = Integer.parseInt(tag.getFirst(FieldKey.BPM));
-		} catch (UnsupportedOperationException | NumberFormatException e) {
-		}
-
-		genre = tag.getFirst(FieldKey.GENRE);
+	public TrackDTO(){
 		
-		this.creationDate = creationDate;
-
-		this.bitrate = bitrate;
-		length = trackLength;
-		this.path = path;
-	}
-
-	public TrackInfo() {
-	}
-
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
 	}
 
 	public long getBitrate() {
@@ -143,8 +63,12 @@ public class TrackInfo {
 		this.artistSort = artistSort;
 	}
 
-	public long getId() {
-		return id;
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public String getArtist() {
@@ -245,7 +169,7 @@ public class TrackInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TrackInfo other = (TrackInfo) obj;
+		TrackDTO other = (TrackDTO) obj;
 		if (artist == null) {
 			if (other.artist != null)
 				return false;
@@ -260,5 +184,4 @@ public class TrackInfo {
 			return false;
 		return true;
 	}
-
 }
