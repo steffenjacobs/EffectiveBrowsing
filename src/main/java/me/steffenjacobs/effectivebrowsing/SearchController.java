@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import me.steffenjacobs.effectivebrowsing.SearchWeightingService.WeightedSearchResultList;
 import me.steffenjacobs.effectivebrowsing.domain.TrackDTOFactory;
 import me.steffenjacobs.effectivebrowsing.domain.TrackListDTOImpl;
 import me.steffenjacobs.effectivebrowsing.domain.orm.TrackRepository;
@@ -23,6 +24,9 @@ public class SearchController {
 
 	@Autowired
 	SearchService searchService;
+
+	@Autowired
+	SearchWeightingService searchWeightingService;
 
 	private static final Calendar CAL = Calendar.getInstance();
 
@@ -52,6 +56,13 @@ public class SearchController {
 	@GetMapping(value = "/files/search")
 	public ResponseEntity<TrackListDTOImpl> search(String search) throws FileNotFoundException {
 		return new ResponseEntity<>(TrackDTOFactory.fromTrackInfo(searchService.search(search)), HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/files/search/weighted")
+	public ResponseEntity<WeightedSearchResultList> weightedSearch(String search) throws FileNotFoundException {
+		return new ResponseEntity<WeightedSearchResultList>(
+				new WeightedSearchResultList(searchWeightingService.weightSearchResult(TrackDTOFactory.fromTrackInfo(searchService.search(search)), search)),
+				HttpStatus.OK);
 	}
 
 	@GetMapping(value = "files/search/duplicate")
