@@ -21,6 +21,9 @@ public class SearchController {
 	@Autowired
 	TrackRepository trackRepository;
 
+	@Autowired
+	SearchService searchService;
+
 	private static final Calendar CAL = Calendar.getInstance();
 
 	static {
@@ -48,10 +51,7 @@ public class SearchController {
 
 	@GetMapping(value = "/files/search")
 	public ResponseEntity<TrackListDTOImpl> search(String search) throws FileNotFoundException {
-		return new ResponseEntity<>(TrackDTOFactory.fromTrackInfo(trackRepository
-				.findByArtistContainingIgnoreCaseOrTitleContainingIgnoreCaseOrAlbumContainingIgnoreCaseOrComposerContainingIgnoreCaseOrCommentContainingIgnoreCaseOrArtistSortContainingIgnoreCaseOrGenreContainingIgnoreCase(
-						search, search, search, search, search, search, search)),
-				HttpStatus.OK);
+		return new ResponseEntity<>(TrackDTOFactory.fromTrackInfo(searchService.search(search)), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "files/search/duplicate")
