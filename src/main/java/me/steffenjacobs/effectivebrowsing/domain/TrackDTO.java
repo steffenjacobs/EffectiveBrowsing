@@ -22,6 +22,7 @@ public class TrackDTO {
 	private long bitrate;
 	private Date creationDate;
 	private long length;
+	private long listencount;
 
 	public TrackDTO(){
 		
@@ -149,6 +150,14 @@ public class TrackDTO {
 
 	public void setLength(long length) {
 		this.length = length;
+	}
+
+	public long getListencount() {
+		return listencount;
+	}
+
+	public void setListencount(long listencount) {
+		this.listencount = listencount;
 	}
 
 	@Override

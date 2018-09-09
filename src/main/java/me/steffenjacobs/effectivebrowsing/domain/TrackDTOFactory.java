@@ -25,6 +25,7 @@ public class TrackDTOFactory {
 		dto.setBitrate(t.getBitrate());
 		dto.setCreationDate(t.getCreationDate());
 		dto.setLength(t.getLength());
+		dto.setListencount(t.getListencount());
 		return dto;
 	}
 	
