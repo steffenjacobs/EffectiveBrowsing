@@ -85,11 +85,21 @@ public class SearchWeightingService {
 	private int weight(Supplier<String> supplier, String[] searchTerms) {
 		int weight = 0;
 		for (String s : searchTerms) {
-			if (s != null && supplier.get() != null && (s.equals(supplier.get()) || s.contains(supplier.get()))) {
-				weight++;
+			if (s != null && supplier.get() != null) {
+				weight += calculateSimilarity(s.toUpperCase(), supplier.get().toUpperCase());
 			}
 		}
 		return weight;
+	}
+
+	private int calculateSimilarity(String first, String second) {
+		if (first.contains(second)) {
+			return second.length();
+		}
+		if (second.contains(first)) {
+			return first.length();
+		}
+		return 0;
 	}
 
 	public List<WeightedSearchResult> weightSearchResult(TrackListDTOImpl tracks, String searchString) {
