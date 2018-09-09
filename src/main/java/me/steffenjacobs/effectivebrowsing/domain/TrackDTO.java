@@ -2,6 +2,8 @@ package me.steffenjacobs.effectivebrowsing.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /** @author Steffen Jacobs */
 
 public class TrackDTO {
@@ -24,8 +26,8 @@ public class TrackDTO {
 	private long length;
 	private long listencount;
 
-	public TrackDTO(){
-		
+	public TrackDTO() {
+
 	}
 
 	public long getBitrate() {
@@ -36,6 +38,7 @@ public class TrackDTO {
 		this.bitrate = bitrate;
 	}
 
+	@JsonIgnore
 	public boolean isEmpty() {
 		return path == null || "".equals(path);
 	}
