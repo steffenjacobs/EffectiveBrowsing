@@ -52,12 +52,41 @@ public class SearchService {
 			queryString
 					.append("OR UPPER(d.album) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.album,'%')) ");
 		}
+		
+		queryString.append(")) OR (d.composer <> '' AND (");
+		queryString.append("UPPER(d.composer) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.composer,'%')) ");
+		for (int i = 1; i < arr.length; i++) {
+			queryString
+			.append("OR UPPER(d.composer) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.composer,'%')) ");
+		}
+		
+		queryString.append(")) OR (d.comment <> '' AND (");
+		queryString.append("UPPER(d.comment) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.comment,'%')) ");
+		for (int i = 1; i < arr.length; i++) {
+			queryString
+			.append("OR UPPER(d.comment) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.comment,'%')) ");
+		}
+		
+		queryString.append(")) OR (d.artistSort <> '' AND (");
+		queryString.append("UPPER(d.artistSort) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.artistSort,'%')) ");
+		for (int i = 1; i < arr.length; i++) {
+			queryString
+			.append("OR UPPER(d.artistSort) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.artistSort,'%')) ");
+		}
+		
+		queryString.append(")) OR (d.genre <> '' AND (");
+		queryString.append("UPPER(d.genre) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.genre,'%')) ");
+		for (int i = 1; i < arr.length; i++) {
+			queryString
+			.append("OR UPPER(d.genre) LIKE UPPER(CONCAT('%',:param" + paramCount++ + ",'%')) OR UPPER(:param" + paramCount++ + ") LIKE UPPER(CONCAT('%',d.genre,'%')) ");
+		}
+		
 		queryString.append("))");
 
 		Query q = entityManager.createQuery(queryString.toString(), TrackInfo.class);
 
-		// 3 loops
-		for (int k = 0; k < 3; k++) {
+		// 7 loops
+		for (int k = 0; k < 7; k++) {
 			// each array element per loop
 			for (int i = 0; i < arr.length; i++) {
 				// arr.length * 2 * k -> offset for second loop
