@@ -52,9 +52,12 @@ public class TrackInfo {
 
 	@Column
 	private long bitrate;
-	
+
 	@Column
 	private Date creationDate;
+
+	@Column
+	private long listencount;
 
 	@Column
 	private long length;
@@ -88,7 +91,7 @@ public class TrackInfo {
 		}
 
 		genre = tag.getFirst(FieldKey.GENRE);
-		
+
 		this.creationDate = creationDate;
 
 		this.bitrate = bitrate;
@@ -97,6 +100,14 @@ public class TrackInfo {
 	}
 
 	public TrackInfo() {
+	}
+
+	public long getListencount() {
+		return listencount;
+	}
+
+	public void setListencount(long listencount) {
+		this.listencount = listencount;
 	}
 
 	public Date getCreationDate() {
