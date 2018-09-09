@@ -24,7 +24,7 @@ public class SearchWeightingService {
 			this.tracks = tracks;
 		}
 
-		public WeightedSearchResultList(){
+		public WeightedSearchResultList() {
 		}
 
 		public WeightedSearchResultList(List<WeightedSearchResult> tracks) {
@@ -76,7 +76,7 @@ public class SearchWeightingService {
 		weight += weight(track::getGenre, searchTerms);
 
 		if (weight > 0) {
-			weight += (int)(0.5 * track.getListencount());
+			weight += (int) (0.5 * track.getListencount());
 		}
 
 		return new WeightedSearchResult(weight, track);
@@ -85,7 +85,7 @@ public class SearchWeightingService {
 	private int weight(Supplier<String> supplier, String[] searchTerms) {
 		int weight = 0;
 		for (String s : searchTerms) {
-			if (s.equals(supplier.get()) || s.contains(supplier.get())) {
+			if (s != null && supplier.get() != null && (s.equals(supplier.get()) || s.contains(supplier.get()))) {
 				weight++;
 			}
 		}
@@ -93,7 +93,6 @@ public class SearchWeightingService {
 	}
 
 	public List<WeightedSearchResult> weightSearchResult(TrackListDTOImpl tracks, String searchString) {
-
 		String[] searchTerms = searchString.split(" ");
 		List<WeightedSearchResult> results = tracks.getTracks().parallelStream().map(t -> weight(t, searchTerms)).collect(Collectors.toList());
 

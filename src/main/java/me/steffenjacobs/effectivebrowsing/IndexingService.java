@@ -168,6 +168,9 @@ public class IndexingService {
 		if (!trackInfo.isEmpty()) {
 			final List<TrackInfo> storedRecord = trackRepository.findByTitleAndArtistAndLength(trackInfo.getTitle(), trackInfo.getArtist(), trackInfo.getLength());
 			if (storedRecord.isEmpty()) {
+				if (trackInfo.getTitle() == null || "".equals(trackInfo.getTitle())) {
+					trackInfo.setTitle(file.getFileName().toFile().getName());
+				}
 				trackRepository.save(trackInfo);
 			} else {
 				// there will be exactly one record in the list 'storedRecord'

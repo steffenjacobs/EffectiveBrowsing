@@ -22,6 +22,7 @@ public class SearchService {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<TrackInfo> search(String searchTerms) {
+		searchTerms = searchTerms.trim();
 
 		int paramCount = 0;
 
