@@ -110,6 +110,7 @@ public class IndexingService {
 				startWorker(Paths.get(path, ""));
 			} catch (IOException e) {
 				LOG.error(e.getMessage());
+				running = false;
 			}
 		}).start();
 		return new IndexingStatusDTO(IndexingStatus.STARTING);
