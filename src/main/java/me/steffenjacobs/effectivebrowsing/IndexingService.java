@@ -11,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FilenameUtils;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -169,7 +170,7 @@ public class IndexingService {
 			final List<TrackInfo> storedRecord = trackRepository.findByTitleAndArtistAndLength(trackInfo.getTitle(), trackInfo.getArtist(), trackInfo.getLength());
 			if (storedRecord.isEmpty()) {
 				if (trackInfo.getTitle() == null || "".equals(trackInfo.getTitle())) {
-					trackInfo.setTitle(file.getFileName().toFile().getName());
+					trackInfo.setTitle(FilenameUtils.removeExtension(file.getFileName().toFile().getName()));
 				}
 				trackRepository.save(trackInfo);
 			} else {
