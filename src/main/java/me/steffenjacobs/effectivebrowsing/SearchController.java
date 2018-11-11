@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import me.steffenjacobs.effectivebrowsing.SearchWeightingService.WeightedSearchResultList;
+import me.steffenjacobs.effectivebrowsing.domain.TrackDTO;
 import me.steffenjacobs.effectivebrowsing.domain.TrackDTOFactory;
 import me.steffenjacobs.effectivebrowsing.domain.TrackListDTOImpl;
 import me.steffenjacobs.effectivebrowsing.domain.orm.TrackRepository;
@@ -32,6 +33,11 @@ public class SearchController {
 
 	static {
 		CAL.setTimeInMillis(0);
+	}
+
+	@GetMapping(value = "/files/search/id")
+	public ResponseEntity<TrackDTO> searchByUUID(long id) throws FileNotFoundException {
+		return new ResponseEntity<>(TrackDTOFactory.fromTrackInfo(trackRepository.findById(id).orElse(null)), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/files/search/title")
